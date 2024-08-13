@@ -39,7 +39,7 @@ def CSendCTest(execFile):
 
     net.start()
     h1.cmd("./%s server 10001 &" % execFile)
-    
+    CLI(net)
     time.sleep(0.5)
 
     h2.cmd("./%s client 10.0.0.1 10001 &" % execFile)
@@ -133,7 +133,7 @@ def pythonSendPythonTest(execFile):
 if __name__ == "__main__":
     if DEBUG:
         result_path = "result"
-        exec_file = "cxy"
+        exec_file = "tcp_stack"
     else:
         result_path = sys.argv[1]
         exec_file = sys.argv[2]
@@ -146,9 +146,9 @@ if __name__ == "__main__":
     # h1: server
     # h2: client
     scores = {
-        "CSendC": CSendCTest(exec_file),
-        # "CSendPython": CSendPythonTest(exec_file),
-        # "pythonSendC": CSendCTest(exec_file),
+        #"CSendC": CSendCTest(exec_file),
+        #"CSendPython": CSendPythonTest(exec_file),
+        "pythonSendC": CSendCTest(exec_file),
         #"pythonSendPython": pythonSendPythonTest(exec_file)
     }
     if not DEBUG:

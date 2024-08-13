@@ -1,0 +1,137 @@
+2024/08/13-11:25:26 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-7]
+2024/08/13-11:25:26 ERROR JWT expired at 2024-07-17T21:09:13Z. Current time: 2024-08-13T11:25:26Z, a difference of 2297773183 milliseconds.  Allowed clock skew: 0 milliseconds. - c.s.o.c.exception.MyExceptionHandler - [http-nio-127.0.0.1-8080-exec-7]
+io.jsonwebtoken.ExpiredJwtException: JWT expired at 2024-07-17T21:09:13Z. Current time: 2024-08-13T11:25:26Z, a difference of 2297773183 milliseconds.  Allowed clock skew: 0 milliseconds.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:385)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:481)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:541)
+	at com.sea.onlinejudge.common.utils.JwtTokenUtil.getClaims(JwtTokenUtil.java:70)
+	at com.sea.onlinejudge.common.interceptor.AuthenticationInterceptor.preHandle(AuthenticationInterceptor.java:43)
+	at org.springframework.web.servlet.HandlerExecutionChain.applyPreHandle(HandlerExecutionChain.java:136)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1033)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:890)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.sea.onlinejudge.common.filter.MyFilter.doFilter(MyFilter.java:36)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:199)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:770)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2024/08/13-11:25:26 INFO  this is myFilter, url: /OnlineJudge/common/verifyCode - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-3]
+2024/08/13-11:25:31 INFO  this is myFilter, url: /OnlineJudge/user/login - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-11]
+2024/08/13-11:25:31 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-1]
+2024/08/13-11:25:32 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-16]
+2024/08/13-11:25:32 INFO  this is myFilter, url: /OnlineJudge/admin/contest/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-9]
+2024/08/13-11:25:34 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-15]
+2024/08/13-11:25:34 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-14]
+2024/08/13-11:25:36 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-5]
+2024/08/13-11:25:36 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-4]
+2024/08/13-11:25:36 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-7]
+2024/08/13-11:25:37 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-3]
+2024/08/13-11:25:37 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-11]
+2024/08/13-11:25:37 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-1]
+2024/08/13-11:25:38 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-16]
+2024/08/13-11:25:38 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-9]
+2024/08/13-11:26:21 INFO  Reconnecting, last destination was localhost/127.0.0.1:6379 - i.l.core.protocol.ConnectionWatchdog - [lettuce-eventExecutorLoop-1-1]
+2024/08/13-11:26:21 WARN  Cannot reconnect: io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: localhost/127.0.0.1:6379 - i.l.core.protocol.ConnectionWatchdog - [lettuce-nioEventLoop-4-2]
+2024/08/13-11:26:23 INFO  Reconnected to localhost:6379 - i.l.c.protocol.ReconnectionHandler - [lettuce-nioEventLoop-4-3]
+2024/08/13-11:26:27 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-15]
+2024/08/13-11:26:27 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-14]
+2024/08/13-11:26:28 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-5]
+2024/08/13-11:26:28 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-4]
+2024/08/13-11:26:28 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-7]
+2024/08/13-11:26:28 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-3]
+2024/08/13-11:26:29 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-11]
+2024/08/13-11:26:29 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-1]
+2024/08/13-11:26:29 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-16]
+2024/08/13-11:26:30 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-9]
+2024/08/13-11:26:30 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-15]
+2024/08/13-11:26:30 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-14]
+2024/08/13-11:26:31 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-5]
+2024/08/13-11:26:31 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-4]
+2024/08/13-11:26:31 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-7]
+2024/08/13-11:26:31 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-3]
+2024/08/13-11:26:32 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-11]
+2024/08/13-11:26:32 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-1]
+2024/08/13-11:26:37 INFO  this is myFilter, url: /OnlineJudge/contest/contestList - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-16]
+2024/08/13-11:26:40 INFO  this is myFilter, url: /OnlineJudge/contest/token - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-9]
+2024/08/13-11:26:40 ERROR null - c.s.o.c.exception.MyExceptionHandler - [http-nio-127.0.0.1-8080-exec-9]
+java.lang.ArrayIndexOutOfBoundsException: null
+2024/08/13-11:26:41 INFO  this is myFilter, url: /OnlineJudge/common/verifyCode - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-15]
+2024/08/13-11:26:47 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-14]
+2024/08/13-11:26:49 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-5]
+2024/08/13-11:26:49 INFO  this is myFilter, url: /OnlineJudge/admin/contest/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-4]
+2024/08/13-11:26:51 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-7]
+2024/08/13-11:26:51 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-3]
+2024/08/13-11:27:04 INFO  HikariPool-1 - Shutdown initiated... - com.zaxxer.hikari.HikariDataSource - [Thread-2]
+2024/08/13-11:27:04 INFO  HikariPool-1 - Shutdown completed. - com.zaxxer.hikari.HikariDataSource - [Thread-2]
+2024/08/13-11:27:09 INFO  Starting OnlinejudgeApplication v0.0.1-SNAPSHOT on server-jftkqh5e with PID 971319 (/home/yangxiaomao/OnlineJudge/OJ/springBoot/OnlineJudge.jar started by yangxiaomao in /home/yangxiaomao/OnlineJudge/OJ/springBoot) - c.s.o.OnlinejudgeApplication - [main]
+2024/08/13-11:27:09 INFO  No active profile set, falling back to default profiles: default - c.s.o.OnlinejudgeApplication - [main]
+2024/08/13-11:27:10 INFO  Multiple Spring Data modules found, entering strict repository configuration mode! - o.s.d.r.c.RepositoryConfigurationDelegate - [main]
+2024/08/13-11:27:10 INFO  Bootstrapping Spring Data repositories in DEFAULT mode. - o.s.d.r.c.RepositoryConfigurationDelegate - [main]
+2024/08/13-11:27:10 INFO  Finished Spring Data repository scanning in 21ms. Found 0 repository interfaces. - o.s.d.r.c.RepositoryConfigurationDelegate - [main]
+2024/08/13-11:27:10 INFO  Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$f4406bf3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying) - o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - [main]
+2024/08/13-11:27:11 INFO  Tomcat initialized with port(s): 8080 (http) - o.s.b.w.e.tomcat.TomcatWebServer - [main]
+2024/08/13-11:27:11 INFO  Initializing ProtocolHandler ["http-nio-127.0.0.1-8080"] - o.a.coyote.http11.Http11NioProtocol - [main]
+2024/08/13-11:27:11 INFO  Starting service [Tomcat] - o.a.catalina.core.StandardService - [main]
+2024/08/13-11:27:11 INFO  Starting Servlet Engine: Apache Tomcat/9.0.12 - o.a.catalina.core.StandardEngine - [main]
+2024/08/13-11:27:11 INFO  The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib] - o.a.c.core.AprLifecycleListener - [main]
+2024/08/13-11:27:11 INFO  Initializing Spring embedded WebApplicationContext - o.a.c.c.C.[.[.[/OnlineJudge] - [main]
+2024/08/13-11:27:11 INFO  Root WebApplicationContext: initialization completed in 2553 ms - o.s.web.context.ContextLoader - [main]
+2024/08/13-11:27:11 INFO  Mapping filter: 'characterEncodingFilter' to: [/*] - o.s.b.w.s.FilterRegistrationBean - [main]
+2024/08/13-11:27:11 INFO  Mapping filter: 'myFilter' to urls: [/*] - o.s.b.w.s.FilterRegistrationBean - [main]
+2024/08/13-11:27:11 INFO  Filter myFilter was not registered (possibly already registered?) - o.s.b.web.servlet.RegistrationBean - [main]
+2024/08/13-11:27:11 INFO  Servlet dispatcherServlet mapped to [/] - o.s.b.w.s.ServletRegistrationBean - [main]
+2024/08/13-11:27:13 INFO  Starting ProtocolHandler ["http-nio-127.0.0.1-8080"] - o.a.coyote.http11.Http11NioProtocol - [main]
+2024/08/13-11:27:14 INFO  Using a shared selector for servlet write/read - o.a.tomcat.util.net.NioSelectorPool - [main]
+2024/08/13-11:27:14 INFO  Tomcat started on port(s): 8080 (http) with context path '/OnlineJudge' - o.s.b.w.e.tomcat.TomcatWebServer - [main]
+2024/08/13-11:27:14 INFO  Started OnlinejudgeApplication in 6.188 seconds (JVM running for 7.86) - c.s.o.OnlinejudgeApplication - [main]
+2024/08/13-11:27:26 INFO  Initializing Spring DispatcherServlet 'dispatcherServlet' - o.a.c.c.C.[.[.[/OnlineJudge] - [http-nio-127.0.0.1-8080-exec-1]
+2024/08/13-11:27:26 INFO  Initializing Servlet 'dispatcherServlet' - o.s.web.servlet.DispatcherServlet - [http-nio-127.0.0.1-8080-exec-1]
+2024/08/13-11:27:26 INFO  Completed initialization in 14 ms - o.s.web.servlet.DispatcherServlet - [http-nio-127.0.0.1-8080-exec-1]
+2024/08/13-11:27:26 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-1]
+2024/08/13-11:27:26 INFO  HikariPool-1 - Starting... - com.zaxxer.hikari.HikariDataSource - [http-nio-127.0.0.1-8080-exec-1]
+2024/08/13-11:27:26 INFO  HikariPool-1 - Start completed. - com.zaxxer.hikari.HikariDataSource - [http-nio-127.0.0.1-8080-exec-1]
+2024/08/13-11:27:26 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-2]
+2024/08/13-11:27:28 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-3]
+2024/08/13-11:27:28 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-4]
+2024/08/13-11:27:29 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-5]
+2024/08/13-11:27:29 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-6]
+2024/08/13-11:27:29 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-7]
+2024/08/13-11:27:29 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-9]
+2024/08/13-11:27:30 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-8]
+2024/08/13-11:27:30 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-10]
+2024/08/13-11:27:56 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-1]
+2024/08/13-11:30:49 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-2]
+2024/08/13-11:30:49 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-3]
+2024/08/13-11:30:50 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-4]
+2024/08/13-11:30:50 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-5]
+2024/08/13-11:30:51 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-6]
+2024/08/13-11:30:51 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-7]
+2024/08/13-11:34:13 INFO  this is myFilter, url: /OnlineJudge/user/powers - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-9]
+2024/08/13-11:34:13 INFO  this is myFilter, url: /OnlineJudge/admin/user/list - c.s.o.common.filter.MyFilter - [http-nio-127.0.0.1-8080-exec-8]
