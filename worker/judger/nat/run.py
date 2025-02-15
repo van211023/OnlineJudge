@@ -11,6 +11,7 @@ import http_server
 sys.path.append("..")
 from tools.tools import getPingResult,fillInInfo,getTraceroutePath,clearIP
 from tools.topos import NATTopo,NATNATTopo
+import threading
 
 DEBUG = 0
 
@@ -39,7 +40,8 @@ def recoverStandard(file, originString):
 
 def removeDownFile(fileList):
     for file in fileList:
-        os.remove(file)
+        if os.path.isfile(file):
+            os.remove(file)
 
 
 def generateNATTopo(topo):
@@ -101,11 +103,17 @@ def generateNATNATTopo(topo):
 
     return net, h1, h2, n1, n2
 
+TIMEOUT = 10
 
-def h3ServerNATTest(execFile):
+def runh3ServerNATTest(execFile):
+
     net, h1, h2, h3, s1, n1 = generateNATTopo(NATTopo())
 
+    print("before test")
+
     net.start()
+
+    print(0)
 
     n1.cmd("./%s exp1.conf &" % execFile)
 
@@ -120,12 +128,25 @@ def h3ServerNATTest(execFile):
     h2.cmd("wget http://159.226.39.123:8000 -O %s" % h2_from_h3)
 
     print(3)
+
     net.stop()
+
+
+def h3ServerNATTest(execFile):
+
+    td = threading.Thread(target=runh3ServerNATTest, args=(execFile, ), daemon=True)
+    td.start()
+
+    td.join(timeout=TIMEOUT)
+    os.system("sudo pkill -SIGTERM %s > /dev/null 2>&1 " % execFile)
+    os.system("ps -ef | grep http_server | grep -v grep | awk '{print $2}' | xargs -I {} sudo kill -9 {}")
+    if td.is_alive(): #超时
+        os.system("sudo mn -c > /dev/null 2>&1")
+        return 2
 
     rewriteStandard(standard_file, "159.226.39.123", "159.226.39.43")
 
-    ret = filecmp.cmp(standard_file, h1_from_h3) and \
-        filecmp.cmp(standard_file, h2_from_h3)
+    ret = filecmp.cmp(standard_file, h1_from_h3) and filecmp.cmp(standard_file, h2_from_h3)
 
     removeDownFile([h1_from_h3, h2_from_h3])
 
@@ -134,7 +155,8 @@ def h3ServerNATTest(execFile):
     return ret
 
 
-def h1h2ServerNATTest(execFile):
+def runh1h2ServerNATTest(execFile):
+
     net, h1, h2, h3, s1, n1 = generateNATTopo(NATTopo())
 
     net.start()
@@ -151,6 +173,19 @@ def h1h2ServerNATTest(execFile):
 
     net.stop()
 
+
+def h1h2ServerNATTest(execFile):
+
+    td = threading.Thread(target=runh1h2ServerNATTest, args=(execFile, ), daemon=True)
+    td.start()
+
+    td.join(timeout=TIMEOUT)
+    os.system("sudo pkill -SIGTERM %s > /dev/null 2>&1 " % execFile)
+    os.system("ps -ef | grep http_server | grep -v grep | awk '{print $2}' | xargs -I {} sudo kill -9 {}")
+    if td.is_alive(): #超时
+        os.system("sudo mn -c > /dev/null 2>&1")
+        return 2
+
     cmp1 = filecmp.cmp(rewriteStandard(
         standard_file, "10.0.0.1", "159.226.39.123"), h3_from_h1)
     recoverStandard(standard_file, http_server.INDEX_PAGE_FMT)
@@ -166,7 +201,8 @@ def h1h2ServerNATTest(execFile):
     return ret
 
 
-def NATNATTest(execFile):
+def runNATNATTest(execFile):
+
     net, h1, h2, n1, n2 = generateNATNATTopo(NATNATTopo())
 
     net.start()
@@ -180,6 +216,19 @@ def NATNATTest(execFile):
     h1.cmd("wget http://159.226.39.123:8000 -O %s" % h1_from_h2)
 
     net.stop()
+
+
+def NATNATTest(execFile):
+    
+    td = threading.Thread(target=runNATNATTest, args=(execFile, ), daemon=True)
+    td.start()
+
+    td.join(timeout=TIMEOUT)
+    os.system("sudo pkill -SIGTERM %s > /dev/null 2>&1 " % execFile)
+    os.system("ps -ef | grep http_server | grep -v grep | awk '{print $2}' | xargs -I {} sudo kill -9 {}")
+    if td.is_alive(): #超时
+        os.system("sudo mn -c > /dev/null 2>&1")
+        return 2
 
     rewriteStandard(standard_file, "10.0.0.2", "159.226.39.43")
 
@@ -203,11 +252,14 @@ if __name__ == "__main__":
     print(result_path, exec_file)
     os.system("chmod 775 %s" % exec_file)
 
+    os.system("sudo service openvswitch-switch restart > /dev/null")
+
     scores = {
         "SNAT": h3ServerNATTest(exec_file),
         "DNAT": h1h2ServerNATTest(exec_file),
         "SDNAT": NATNATTest(exec_file)
     }
+    print(scores)
     if not DEBUG:
         os.remove(exec_file)
 

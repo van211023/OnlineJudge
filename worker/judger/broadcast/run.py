@@ -186,6 +186,7 @@ if __name__ == '__main__':
         "iperf": hubIperfTest(exec_file),
         "ping_loop": hubPingLoopTest(exec_file)
     }
+    os.system("sudo pkill -SIGTERM %s" % exec_file)
 
     if not DEBUG:
         os.remove(exec_file)

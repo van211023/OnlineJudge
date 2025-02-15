@@ -10,7 +10,7 @@ sys.path.append("..")
 from tools.tools import fillInInfo
 from tools.topos import TCPTopo
 
-DEBUG = 1
+DEBUG = 0
 
 data = tcp_echo.data
 
@@ -43,6 +43,7 @@ def generateEchoTopo(topo):
     for h in (h1, h2):
         h.cmd('scripts/disable_offloading.sh')
         h.cmd('scripts/disable_tcp_rst.sh')
+        h.cmd('scripts/disable_ipv6.sh')
 
     return net, h1, h2
 
@@ -51,22 +52,27 @@ def CEchoCTest(execFile):
     net, h1, h2 = generateEchoTopo(TCPTopo())
 
     net.start()
-    # CLI(net)
-    # return 0
-    h1.cmd("./%s server 10001 &" % execFile)
-
-    h2.cmd("./%s client 10.0.0.1 10001 > %s &" % (execFile, client_res))
+    
+    h1.cmd("./%s server 10001 > %s 2>&1 &" % (execFile, "cc-server.log"))
 
     time.sleep(5)
 
+    h2.cmd("./%s client 10.0.0.1 10001 > %s 2>&1 &" % (execFile, "cc.log"))
+
+    time.sleep(20)
+
+    os.system("sudo pkill -SIGTERM %s" % execFile)
     net.stop()
 
-    res = uniformData(client_res)
+    res = uniformData("cc.log")
     
     if res == []:
         return False
 
     cmp_data = [item[:len(res[0])] for item in uniform_cmp_data[:len(res)]]
+    print("cc")
+    print("res",res)
+    print("cmp_data",cmp_data)
 
     return res == cmp_data
 
@@ -83,18 +89,22 @@ def CEchoPythonTest(execFile):
     # return False
     h1.cmd("./%s server 10001 &" % execFile)
 
-    h2.cmd("python3 tcp_echo.py client 10.0.0.1 10001 > %s &" % client_res)
-
     time.sleep(5)
 
+    h2.cmd("python3 tcp_echo.py client 10.0.0.1 10001 > %s &" % "cp.log")
+
+    time.sleep(20)
+
+    os.system("sudo pkill -SIGTERM %s" % execFile)
     net.stop()
 
-    res = uniformData(client_res)
+    res = uniformData("cp.log")
     
     if res == []:
         return False
 
     cmp_data = [item[:len(res[0])] for item in uniform_cmp_data[:len(res)]]
+    print("cp")
     print("res",res)
     print("cmp_data",cmp_data)
     
@@ -113,20 +123,25 @@ def pythonEchoCTest(execFile):
     
     # return False
 
-    h1.cmd("python3 tcp_echo.py server 10001 &")
-    
-    res = h2.cmd("./%s client 10.0.0.1 10001 > %s &" % (execFile, client_res))
+    h1.cmd("python3 -u tcp_echo.py server 10001 > %s 2>&1 &" % ("pc-server.log"))
 
     time.sleep(5)
+    
+    res = h2.cmd("./%s client 10.0.0.1 10001 > %s 2>&1 &" % (execFile, "pc.log"))
 
+    time.sleep(20)
+
+    os.system("sudo pkill -SIGTERM %s" % execFile)
     net.stop()
 
-    res = uniformData(client_res)
+    res = uniformData("pc.log")
     
     if res == []:
+        print("empty res")
         return False
 
     cmp_data = [item[:len(res[0])] for item in uniform_cmp_data[:len(res)]]
+    print("pc")
     print("res",res)
     print("cmp_data",cmp_data)
     
@@ -136,7 +151,7 @@ def pythonEchoCTest(execFile):
 if __name__ == "__main__":
     if DEBUG:
         result_path = "result"
-        exec_file = "llh"
+        exec_file = "tcp_echo"
     else:
         result_path = sys.argv[1]
         exec_file = sys.argv[2]

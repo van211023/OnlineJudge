@@ -76,6 +76,7 @@ def getBWInTopo(file):
     # wait 6s to finish the file writing
     time.sleep(7)
     os.system("sudo pkill -SIGTERM iperf")
+    os.system("sudo pkill -SIGTERM %s" % file)
 
     time.sleep(1)
     net.stop()

@@ -4,6 +4,7 @@ import socket
 import time
 
 def server(port):
+    print('enter server')
     s = socket.socket()
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     

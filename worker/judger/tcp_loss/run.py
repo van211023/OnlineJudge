@@ -10,8 +10,8 @@ sys.path.append("..")
 from tools.topos import TCPLossTopo
 from tools.tools import fillInInfo
 
-DEBUG = 1
-send_time = 20
+DEBUG = 0
+send_time = 40
 client_file = "client-input.dat"
 server_file = "server-output.dat"
 
@@ -38,20 +38,23 @@ def CSendCTest(execFile):
     net, h1, h2 = generateBulkTopo(TCPLossTopo())
 
     net.start()
-    h1.cmd("./%s server 10001 &" % execFile)
-    CLI(net)
-    time.sleep(0.5)
 
-    h2.cmd("./%s client 10.0.0.1 10001 &" % execFile)
+    h1.cmd("./%s server 10001 > cc-server.log 2>&1 &" % execFile)
+    
+    time.sleep(10)
+
+    h2.cmd("./%s client 10.0.0.1 10001 > cc.log 2>& 1 &" % execFile)
 
     time.sleep(send_time)  # waiting server recv
 
-    #os.system("sudo pkill -SIGTERM %s"%exec_file)
+    os.system("sudo pkill -SIGTERM %s" % execFile)
     net.stop()
+
+    os.system('cp server-output.dat outputcc.dat')
 
     try:
         ret = filecmp.cmp(client_file, server_file)
-        #os.remove(server_file)
+        os.remove(server_file)
         return ret
     except:
         return False
@@ -63,15 +66,19 @@ def CSendPythonTest(execFile):
 
     net.start()
 
-    h1.cmd("python3 bulk.py server 10001 &")
+    h1.cmd("python3 -u bulk.py server 10001 > cp-server.log 2>&1 &")
     
-    time.sleep(0.5)
+    time.sleep(10)
 
-    h2.cmd("./%s client 10.0.0.1 10001 &" % execFile)
+    h2.cmd("./%s client 10.0.0.1 10001 > cp.log 2>&1 &" % execFile)
 
     time.sleep(send_time)  # waiting server recv
 
+    os.system("sudo pkill -SIGTERM %s" % execFile)
+    os.system("ps -ef | grep bulk | grep -v grep | awk '{print $2}' | xargs sudo kill")
     net.stop()
+
+    os.system('cp server-output.dat outputcp.dat')
 
     try:
         ret = filecmp.cmp(client_file, server_file)
@@ -89,12 +96,14 @@ def pythonSendCTest(execFile):
 
     h1.cmd("./%s server 10001 &" % execFile)
     
-    time.sleep(0.5)
+    time.sleep(5)
     #CLI(net)
     h2.cmd("python bulk.py client 10.0.0.1 10001 &")
 
     time.sleep(send_time)  # waiting server recv
 
+    os.system("sudo pkill -SIGTERM %s" % execFile)
+    os.system("ps -ef | grep bulk | grep -v grep | awk '{print $2}' | xargs sudo kill")
     net.stop()
 
     try:
@@ -113,11 +122,11 @@ def pythonSendPythonTest(execFile):
 
     h1.cmd("python3 bulk.py server 10001 &")
     
-    time.sleep(0.5)
+    time.sleep(5)
 
     h2.cmd("python3 bulk.py client 10.0.0.1 10001 &")
 
-    time.sleep(3)  # waiting server recv
+    time.sleep(send_time)  # waiting server recv
 
     net.stop()
 
@@ -133,7 +142,7 @@ def pythonSendPythonTest(execFile):
 if __name__ == "__main__":
     if DEBUG:
         result_path = "result"
-        exec_file = "tcp_stack"
+        exec_file = "tcp_bulk"
     else:
         result_path = sys.argv[1]
         exec_file = sys.argv[2]
@@ -146,9 +155,9 @@ if __name__ == "__main__":
     # h1: server
     # h2: client
     scores = {
-        #"CSendC": CSendCTest(exec_file),
-        #"CSendPython": CSendPythonTest(exec_file),
-        "pythonSendC": CSendCTest(exec_file),
+        "CSendC": CSendCTest(exec_file),
+        "CSendPython": CSendPythonTest(exec_file),
+        "pythonSendC": pythonSendCTest(exec_file),
         #"pythonSendPython": pythonSendPythonTest(exec_file)
     }
     if not DEBUG:

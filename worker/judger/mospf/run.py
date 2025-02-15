@@ -102,6 +102,9 @@ def simpleOspfTopoTest(execFile):
 
     pingResult = getPingResult(h1, "10.0.6.22")
 
+    print(pingResult)
+    print("===end ping result===")
+
     originPath = getTraceroutePath(h1, "10.0.6.22")
 
     print("origin_path", originPath)
@@ -109,6 +112,7 @@ def simpleOspfTopoTest(execFile):
 
     # The first test don't pass, so we don't need to expriment test2
     if "0% packet loss" not in pingResult:
+        os.system("sudo pkill -SIGTERM %s" % execFile)
         net.stop()
         return ret
     print("origin_path", originPath)
@@ -120,20 +124,30 @@ def simpleOspfTopoTest(execFile):
     path2 = ["10.0.1.1", "10.0.3.3", "10.0.5.4", "10.0.6.22"]
     path3 = ["10.0.1.1", "10.0.2.2", "10.0.5.4", "10.0.6.22"]
     path4 = ["10.0.1.1", "10.0.3.3", "10.0.4.4", "10.0.6.22"]
+    path5 = ["_gateway", "10.0.2.2", "10.0.4.4", "10.0.6.22"]
+    path6 = ["_gateway", "10.0.3.3", "10.0.5.4", "10.0.6.22"]
+    path7 = ["_gateway", "10.0.2.2", "10.0.5.4", "10.0.6.22"]
+    path8 = ["_gateway", "10.0.3.3", "10.0.4.4", "10.0.6.22"]
 
     
-    if originPath in [path1, path3]:
+    if originPath in [path1, path3, path5, path7]:
         CLI(net, script="r1r2_down.txt")
-    elif originPath in [path2, path4]:
+    elif originPath in [path2, path4, path6, path8]:
         CLI(net, script="r1r3_down.txt")
     else:
+        os.system("sudo pkill -SIGTERM %s" % execFile)
         net.stop()
         return [False, False]
     print("begin_test2")
     time.sleep(40)
     pingResult = getPingResult(h1, "10.0.6.22")
+
     ret[1] = "0% packet loss" in pingResult
 
+    print(pingResult)
+    print("===end ping result===")
+
+    os.system("sudo pkill -SIGTERM %s" % execFile)
     net.stop()
     return ret
 
@@ -151,6 +165,7 @@ def switchOspfTopoTest(execFile):
 
     pingResult = getPingResult(h1, "10.0.7.77")
 
+    os.system("sudo pkill -SIGTERM %s" % execFile)
     net.stop()
 
     return "0% packet loss" in pingResult
