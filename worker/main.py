@@ -18,18 +18,16 @@ downloadDir = "downloadDir"
 # sys.setdefaultencoding("utf-8")
 
 expIdDict = {
-    13: "judger/http_server",
-    14: "judger/broadcast",
-    15: "judger/switch",
-    16: "judger/stp",
-    17: "judger/router",
-    18: "judger/mospf",
-    19: "judger/ip_lookup",
-    20: "judger/tcp_echo",
-    21: "judger/tcp_bulk",
-    22: "judger/nat",
-    23: "judger/tcp_loss",
-    24: "judger/tcp_http"
+    1: "judger/http_server",
+    2: "judger/tcp_echo",
+    3: "judger/tcp_bulk",
+    4: "judger/tcp_loss",
+    5: "judger/broadcast",
+    6: "judger/switch",
+    7: "judger/router",
+    8: "judger/ip_lookup",
+    9: "judger/mospf",
+    11: "judger/nat"
 }
 
 
@@ -111,10 +109,16 @@ def main(fileId, expId, userId, filePath):
     os.chdir(workDir)
     print(os.getcwd())
     # 执行
-    print("sudo python3 run.py %s %s" % (origin_cwd, targetNameFromMakefile))
+    print("sudo python3 -u run.py %s %s" % (origin_cwd, targetNameFromMakefile))
     child = subprocess.Popen("sudo python3 run.py %s %s" % (
         origin_cwd, targetNameFromMakefile), shell=True)
+    # child = subprocess.Popen("sudo python3 run.py %s %s" % (
+    #     origin_cwd, targetNameFromMakefile), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     child.wait()
+    # print("#####")
+    # for line in child.stdout.readlines():
+    #     print(line)
+    # print("#####")
     # 切回工作目录并处理文件
     os.chdir(origin_cwd)
     tools.removeDir(decompressPath)
@@ -124,14 +128,11 @@ def main(fileId, expId, userId, filePath):
     try:
         with open("result.json", "r") as f:
             result = f.read()
+            if not DEBUG:
+                os.remove("result.json")
     except:
         with open("internal_error.json", "r") as f:
             result = f.read()
-    
-    if not DEBUG:
-        if os.path.exists("result.json"):
-            os.remove("result.json")
-
      
     resultJson = json.loads(result)
     retInfo["status"] = resultJson["status"]
@@ -176,14 +177,15 @@ if __name__ == "__main__":
         userId = data["userId"]
         filePath = data["filePath"] 
 
-        os.system("scp -r yangxiaomao@192.168.0.230:%s ." % filePath)
+        os.system("scp -r xxx@ip:%s ." % filePath) #FIXME
 
         writeLog("", "download finish")
 
         returnData = main(fileId, expId, userId, filePath)
 
-        # returnData["ip"] = "127.0.0.1"
-        returnData["ip"] = str(socket.gethostbyname(socket.gethostname()))
+        returnData["ip"] = "ip" #FIXME
+        returnData["port"] = "port" #FIXME
+        # returnData["ip"] = str(socket.gethostbyname(socket.gethostname()))
 
         returnData = json.dumps(returnData, indent=4, ensure_ascii=False)
 
@@ -191,6 +193,6 @@ if __name__ == "__main__":
 
         writeLog(returnData, "returnData ")
 
-        sendBackToMaster("192.168.0.230", 4320, returnData)
+        sendBackToMaster("master_ip", 4320, returnData) #FIXME
 
         conn.close()

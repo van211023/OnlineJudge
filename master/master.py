@@ -14,7 +14,7 @@ import shutil
 import importlib
 
 # sudo scp yangxiaomao@192.168.0.230:/home/yangxiaomao/worker/mininetTopo.py . && ./run_worker.sh
-# sudo scp yangxiaomao@192.168.0.230:/home/yangxiaomao/OnlineJudge/worker/main.py . && chmod 777 main.py && ./run_worker.sh
+# sudo scp yangxiaomao@192.168.0.230:/home/yangxiaomao/worker/main.py . && chmod 777 main.py && ./run_worker.sh
 # 记得改地址啊
 # cd && sudo rm -rf worker && rm -f worker.zip && sudo scp yangxiaomao@192.168.0.230:/home/yangxiaomao/OnlineJudge/worker.zip . && unzip worker.zip && chmod 777 -R worker && cd worker && ./run_worker.sh
 # cd /etc/apt && sudo scp yangxiaomao@192.168.2.151:/home/yangxiaomao/sources.list . && sudo apt update && sudo apt install libssl1.1=1.1.1f-1ubuntu2.12 && sudo apt install libssl-dev
@@ -24,16 +24,17 @@ MAX_QUEUE_SIZE = 65535
 DEQUEUE_INTERVAL = 0.5
 POST_URL = "http://localhost:8080/OnlineJudge/contest/setStatus"
 
-master_ip = "192.168.0.230"
-w217 = "192.168.0.217"
-w237 = "192.168.2.237"
-w248 = "192.168.0.248"
+#FIXME
+master_ip = "master_ip"
+w69 = "worker_ip" 
+w68 = "worker_ip" 
+w59 = "1worker_ip"
 
 workerList = [ 
-    {"ip": master_ip, "port": 9999, "state": BUSY}, # local machine, to test
-    {"ip": w217, "port": 9999, "state": FREE}, 
-    {"ip": w237, "port": 9999, "state": FREE}, 
-    {"ip": w248, "port": 9999, "state": FREE}, 
+    {"ip": master_ip, "port": 9999, "state": FREE}, # local machine, to test
+    {"ip": w69, "port": 9999, "state": FREE}, 
+    {"ip": w68, "port": 9998, "state": FREE},
+    {"ip": w59, "port": 9999, "state": BUSY}
 ]
 # receive json type task
 taskQueue = Queue(maxsize=MAX_QUEUE_SIZE)
@@ -49,10 +50,10 @@ def writeLog(log, extraInfo=""):
         f.write("\r\n")
 
 
-def setWorkerFree(ip):
+def setWorkerFree(ip, port):
     print(ip)
     for worker in workerList:
-        if worker["ip"] == ip:
+        if worker["ip"] == ip and worker["port"] == port:
             worker["state"] = FREE
 
 
@@ -125,6 +126,7 @@ def sendMsgTo(ip, port, msg):
         sys.exit(1)
     print("I am sending msg to {}:{}".format(ip, port))
     s.send(msg.encode())
+    print('send end') 
     s.close()
 
 # get path from lyg and enqueue
@@ -175,7 +177,7 @@ def receiveResultAndSendback():
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         s.bind(("0.0.0.0", 4320))
         s.listen(20)
-        print("192.168.0.230:4320 listening......")
+        print("master_ip:4320 listening......") #FIXME
     except socket.error as msg:
         print("4320", msg)
         sys.exit(1)
@@ -192,14 +194,16 @@ def receiveResultAndSendback():
             print(msg)
             sys.exit(1)
         workerIP = data["ip"]
+        workerPort = int(data["port"])
         expId    = data["expId"]
         userId   = data["userId"]
         filePath = data["filePath"]
         writeLog(rawData.decode(), "ReceiveResult ")
         del data["ip"]
+        del data["port"]
         del data["filePath"]
         # We only save the file which is uploaded latest
-        setWorkerFree(workerIP)
+        setWorkerFree(workerIP, workerPort)
         saveFunc = threading.Thread(target=saveArchives, args=(
             str(expId), userId, filePath), name="saveArchives")
         saveFunc.start()
